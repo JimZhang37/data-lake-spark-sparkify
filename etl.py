@@ -15,6 +15,9 @@ os.environ['AWS_SECRET_ACCESS_KEY']=config.get('AWS','AWS_SECRET_ACCESS_KEY')
 
 
 def create_spark_session():
+    """
+    This function return a spark session instance
+    """
     spark = SparkSession \
         .builder \
         .config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:2.7.0") \
@@ -22,6 +25,14 @@ def create_spark_session():
     return spark
 
 def process_song_data(spark, input_data, output_data):
+    """
+    This function read song data from a location specified by input_data and save artists_table and songs_table to the location specified by output_data
+    It creates 2 dimentional tables for further analysis
+    Input: 
+    spark: spark session's instance
+    input_data: location of input files
+    output_data: location of output files
+    """
     # get filepath to song data file
     song_data = '{}song_data/*/*/*/*.json'.format(input_data)
 
@@ -45,6 +56,15 @@ def process_song_data(spark, input_data, output_data):
 
 
 def process_log_data(spark, input_data, output_data):
+    """
+    This function read log data from a location specified by input_data and save time_table and users_table and songplays to the location specified by output_data
+    It creates 2 dimentional tables and 1 fact table for further analysis 
+    input:
+    spark: spark session's instance
+    input_data: location of input files
+    output_data: location of output files
+    """
+
     # get filepath to log data file
     # todo(change log path)
     log_data = '{}log-data'.format(input_data)
@@ -122,6 +142,9 @@ def process_log_data(spark, input_data, output_data):
 
 
 def main():
+    """
+    main file used in this project
+    """
     spark = create_spark_session()
     input_data = "s3a://udacity-dend/"
     output_data = "s3a://emryh/"
